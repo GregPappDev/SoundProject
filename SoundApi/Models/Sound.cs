@@ -22,6 +22,6 @@ namespace SoundApi.Models
         public required DateTime SoundCreated { get; set; }
 
         [Column("sound_updated_datetime", TypeName = "timestamp without time zone")]
-        public required DateTime? SoundUpdated { get; set; }
+        public DateTime? SoundUpdated { get; set; }
     }
 }
