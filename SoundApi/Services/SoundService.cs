@@ -17,13 +17,17 @@ namespace SoundApi.Services
 
         public async Task CreateSound(CreateSound createSound)
         {
-            var dataArray = createSound.GetDataArray();
+            //var dataArray = createSound.GetDataArray();
 
-            SoundModel newSound = new()
+            byte[] arr = new byte[1];
+            arr[0] = 0;
+
+            SoundModel newSound = new() 
+            
             {
                 SoundName = createSound.Name,
                 SoundExtension = createSound.Extension,
-                SoundData = (byte[])(Array)dataArray,
+                SoundData = arr,
                 SoundCreated = DateTime.Now,
             };
 
@@ -32,13 +36,6 @@ namespace SoundApi.Services
 
         }
 
-        private bool isCreateSoundValid(CreateSound createSound)
-        {
-            if (string.IsNullOrEmpty(createSound.Name)) return false;
-            if (string.IsNullOrEmpty(createSound.Extension)) return false;
-            if (createSound.GetDataArray().Length < 1) return false;
 
-            return true;
-        }
     }
 }
