@@ -1,7 +1,8 @@
-﻿using SoundApi.Data;
+﻿using Contract;
+using SoundApi.Data;
 using SoundApi.Interfaces;
 using SoundApi.Models;
-using SoundApi.Models.DTOs;
+
 
 namespace SoundApi.Services
 {
@@ -14,16 +15,30 @@ namespace SoundApi.Services
             _context = context;
         }
 
-        public void CreateSound(CreateSoundDto createSoundDto)
+        public async Task CreateSound(CreateSound createSound)
         {
-                      
-            Sound newSound = new()
+            var dataArray = createSound.GetDataArray();
+
+            SoundModel newSound = new()
             {
-                SoundName = createSoundDto.SoundName,
-                SoundExtension = createSoundDto.SoundExtension,
-                SoundData = createSoundDto.SoundData,
+                SoundName = createSound.Name,
+                SoundExtension = createSound.Extension,
+                SoundData = (byte[])(Array)dataArray,
                 SoundCreated = DateTime.Now,
             };
+
+            await _context.AddAsync(newSound);
+            await _context.SaveChangesAsync();
+
+        }
+
+        private bool isCreateSoundValid(CreateSound createSound)
+        {
+            if (string.IsNullOrEmpty(createSound.Name)) return false;
+            if (string.IsNullOrEmpty(createSound.Extension)) return false;
+            if (createSound.GetDataArray().Length < 1) return false;
+
+            return true;
         }
     }
 }

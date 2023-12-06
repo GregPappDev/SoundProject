@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SoundApi.Models
 {
-    public class Sound
+    public class SoundModel
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("sound_id")]

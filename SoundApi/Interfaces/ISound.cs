@@ -1,9 +1,9 @@
-﻿using SoundApi.Models.DTOs;
+﻿using Contract;
 
 namespace SoundApi.Interfaces
 {
     public interface ISound
     {
-        void CreateSound(CreateSoundDto createSoundDto);
+        Task CreateSound(CreateSound createSound);
     }
 }

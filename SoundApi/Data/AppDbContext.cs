@@ -17,6 +17,6 @@ namespace SoundApi.Data
             options.UseNpgsql(Configuration.GetConnectionString("WebApiDatabase"));
         }
 
-        public DbSet<Sound> Sounds { get; set; }
+        public DbSet<SoundModel> Sounds { get; set; }
     }
 }
