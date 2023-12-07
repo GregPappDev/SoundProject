@@ -23,28 +23,26 @@ namespace SoundApi.Controllers
         public async Task<ActionResult> CreateNewSound([FromBody] Stream stream )
         {            
             CreateSound? createSound = convertStreamToCreateSoundType(stream);
-            if (createSound == null) { return BadRequest(); }
 
-            if (!isCreateSoundValid((CreateSound)createSound)) { return BadRequest(); }
-
+            if (createSound == null && !isCreateSoundValid((CreateSound)createSound)) { return BadRequest(); }
+                        
             await _service.Create((CreateSound)createSound);
             return Ok("Sound created");
-                     
-            
+                    
         }
 
         private CreateSound? convertStreamToCreateSoundType(Stream stream)
         {
-            MemoryStream ms = new MemoryStream();
-            stream.CopyTo(ms);
-            byte[] data = ms.ToArray();
+            MemoryStream memoryStream = new MemoryStream();
+            stream.CopyTo(memoryStream);
+            byte[] data = memoryStream.ToArray();
 
-            ByteBuffer bb = new ByteBuffer(data);
+            ByteBuffer byteBuffer = new ByteBuffer(data);
 
             CreateSound createSoundRoot;
             try
             {
-                createSoundRoot = CreateSound.GetRootAsCreateSound(bb);
+                createSoundRoot = CreateSound.GetRootAsCreateSound(byteBuffer);
                 if (createSoundRoot.GetType() == typeof(CreateSound)) { return createSoundRoot; }
             }
             catch (Exception ex)
