@@ -7,6 +7,11 @@ namespace SoundApi.Data
     {
         protected readonly IConfiguration Configuration;
 
+        public AppDbContext()
+        {
+            
+        }
+
         public AppDbContext(IConfiguration configuration)
         {
             Configuration = configuration;
