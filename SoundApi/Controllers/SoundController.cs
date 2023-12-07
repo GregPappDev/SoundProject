@@ -53,12 +53,11 @@ namespace SoundApi.Controllers
             return null;
         }
 
-        private bool isCreateSoundValid(CreateSound createSound)
+        public bool isCreateSoundValid(CreateSound createSound)
         {
             if (string.IsNullOrEmpty(createSound.Name)) return false;
             if (string.IsNullOrEmpty(createSound.Extension)) return false;
-            if (createSound.GetDataArray().Length < 1) return false;
-
+           
             return true;
         }
     }
