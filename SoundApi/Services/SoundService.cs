@@ -6,7 +6,7 @@ using SoundApi.Models;
 
 namespace SoundApi.Services
 {
-    public class SoundService : ISound
+    public class SoundService : ISoundService
     {
         private readonly AppDbContext _context;
 
@@ -15,19 +15,13 @@ namespace SoundApi.Services
             _context = context;
         }
 
-        public async Task CreateSound(CreateSound createSound)
+        public async Task Create(CreateSound createSound)
         {
-            //var dataArray = createSound.GetDataArray();
-
-            byte[] arr = new byte[1];
-            arr[0] = 0;
-
             SoundModel newSound = new() 
-            
             {
                 SoundName = createSound.Name,
                 SoundExtension = createSound.Extension,
-                SoundData = arr,
+                SoundData = new byte[1],
                 SoundCreated = DateTime.Now,
             };
 

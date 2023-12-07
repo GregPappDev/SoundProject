@@ -12,26 +12,23 @@ namespace SoundApi.Controllers
     [ApiController]
     public class SoundController : ControllerBase
     {
-        private readonly ISound _service;
+        private readonly ISoundService _service;
 
-        public SoundController(ISound service)
+        public SoundController(ISoundService service)
         {
             _service = service;
         }
 
         [HttpPost("[action]")]
-        public async Task<ActionResult> CreateNewSound([FromBody] CreateSound createSound )
-        {
-            //if (stream == null) { return BadRequest("Request contains no data"); }
+        public async Task<ActionResult> CreateNewSound([FromBody] Stream stream )
+        {            
+            CreateSound? createSound = convertStreamToCreateSoundType(stream);
+            if (createSound == null) { return BadRequest(); }
 
-            //CreateSound? createSound = convertStreamToCreateSoundType(stream);
+            if (!isCreateSoundValid((CreateSound)createSound)) { return BadRequest(); }
 
-            //if (createSound == null) { return BadRequest("Request contains incorrect data");}
-
-            //if (!isCreateSoundValid((CreateSound)createSound)) { return BadRequest("Request contains incorrect data"); }
-            
-            await _service.CreateSound((CreateSound)createSound);
-            return Ok();
+            await _service.Create((CreateSound)createSound);
+            return Ok("Sound created");
                      
             
         }

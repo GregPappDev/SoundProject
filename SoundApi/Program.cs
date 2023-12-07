@@ -15,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<ISound, SoundService>();
+builder.Services.AddTransient<ISoundService, SoundService>();
 
 var app = builder.Build();
 
