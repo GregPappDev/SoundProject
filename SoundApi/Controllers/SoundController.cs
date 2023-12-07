@@ -20,7 +20,7 @@ namespace SoundApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<ActionResult> CreateNewSound([FromBody] Stream stream )
+        public async Task<IActionResult> CreateNewSound([FromBody] Stream stream )
         {            
             CreateSound? createSound = _service.ConvertStreamToCreateSoundType(stream);
 
