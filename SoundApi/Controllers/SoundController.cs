@@ -22,10 +22,13 @@ namespace SoundApi.Controllers
         [HttpPost("[action]")]
         public async Task<ActionResult> CreateNewSound([FromBody] Stream stream )
         {            
-            CreateSound? createSound = convertStreamToCreateSoundType(stream);
+            CreateSound? createSound = _service.ConvertStreamToCreateSoundType(stream);
 
-            if (createSound == null && !isCreateSoundValid((CreateSound)createSound)) { return BadRequest(); }
-                        
+            if (createSound == null ) { return BadRequest(); }
+
+            if (!_service.IsCreateSoundValid((CreateSound)createSound)) { return BadRequest(); }
+
+
             await _service.Create((CreateSound)createSound);
             return Ok("Sound created");
                     
