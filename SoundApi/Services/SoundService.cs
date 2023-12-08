@@ -37,11 +37,11 @@ namespace SoundApi.Services
 
         #region Helper functions
 
-        public CreateSound? ConvertStreamToCreateSoundType(Stream stream)
+        public CreateSound? ConvertStreamToCreateSoundType(MemoryStream stream)
         {
-            MemoryStream memoryStream = new MemoryStream();
-            stream.CopyTo(memoryStream);
-            byte[] data = memoryStream.ToArray();
+            //MemoryStream memoryStream = new MemoryStream();
+            //stream.CopyTo(memoryStream);
+            byte[] data = stream.ToArray();
 
             ByteBuffer byteBuffer = new ByteBuffer(data);
 

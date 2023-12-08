@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SoundApi.Interfaces;
 using SoundApi.Services;
+using System.IO;
 using System.Threading;
 
 namespace SoundApi.Controllers
@@ -20,18 +21,23 @@ namespace SoundApi.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreateNewSound([FromBody] Stream stream )
+        public async Task<IActionResult> CreateNewSound()
         {
             var body = Request.Body;
+            if(body == null) { BadRequest("Invalid request body"); }
 
-            CreateSound? createSound = _service.ConvertStreamToCreateSoundType(stream);
+            MemoryStream memoryStream = new MemoryStream();
+            await body.CopyToAsync(memoryStream);
 
-            if (createSound == null ) { return BadRequest(); }
+            CreateSound? createSound = _service.ConvertStreamToCreateSoundType(memoryStream);
 
-            if (!_service.IsCreateSoundValid((CreateSound)createSound)) { return BadRequest(); }
+            if(createSound == null) { BadRequest("Invalid request body"); }
+
+            if(!_service.IsCreateSoundValid((CreateSound)createSound)) { BadRequest("Invalid request body"); }
 
             await _service.Create((CreateSound)createSound);
-            return Ok("Sound created");
+                        
+            return Ok("Sound sucessfully saved");
                     
         }
     }

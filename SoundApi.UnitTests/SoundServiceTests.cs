@@ -50,7 +50,7 @@ namespace SoundApi.UnitTests
         public void ConvertStreamToCreateSoundType_ReturnsTrue_IfInputTypeIsValid()
         {
             // Arrange
-            Stream stream = CreateStreamFromCreateSoundType("Enter Sandman", "mp3");
+            MemoryStream stream = CreateStreamFromCreateSoundType("Enter Sandman", "mp3");
             
             // Act
             var result = _sut.ConvertStreamToCreateSoundType(stream);
@@ -66,7 +66,7 @@ namespace SoundApi.UnitTests
         {
             // Arrange
             var emptyByteArray = new byte[0];
-            Stream stream = new MemoryStream(emptyByteArray);
+            MemoryStream stream = new MemoryStream(emptyByteArray);
 
             // Act
             var result = _sut.ConvertStreamToCreateSoundType(stream);
@@ -100,7 +100,7 @@ namespace SoundApi.UnitTests
             return soundRoot;
         }
 
-        private Stream CreateStreamFromCreateSoundType(string soundName, string soundExtention)
+        private MemoryStream CreateStreamFromCreateSoundType(string soundName, string soundExtention)
         {
             var builder = new FlatBufferBuilder(1);
             var name = builder.CreateString(soundName);
@@ -119,7 +119,7 @@ namespace SoundApi.UnitTests
             var soundRoot = CreateSound.GetRootAsCreateSound(buf);
                         
             byte[] byteArray = builder.SizedByteArray();
-            Stream stream = new MemoryStream(byteArray);
+            MemoryStream stream = new MemoryStream(byteArray);
             return stream;
         }
 

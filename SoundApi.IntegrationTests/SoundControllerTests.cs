@@ -16,6 +16,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.IO;
 using System.Net.Sockets;
 using Microsoft.AspNetCore.Http;
+using System.Net;
 
 
 namespace SoundApi.IntegrationTests
@@ -23,7 +24,7 @@ namespace SoundApi.IntegrationTests
     public class SoundControllerTests : IntegrationTest
     {
         [Fact]
-        public void CreateNewSound_CreatesSound_WithValidData()
+        public async Task CreateNewSound_CreatesSound_WithValidDataAsync()
         {
             // Arrange
             byte[] byteArray = CreateByteArrayFromCreateSoundType("Enter Sandman", "mp3");
@@ -32,10 +33,11 @@ namespace SoundApi.IntegrationTests
             content.Headers.Add("Content-Type", "application/json");
 
             // Act
-            var response = TestClient.PostAsync(new Uri("/api/Sound/Create", UriKind.Relative), content).Result;
+            var response = await TestClient.PostAsync(new Uri("/api/Sound/CreateNewSound", UriKind.Relative), content);
+            //var r = response.Result;
 
             // Assert
-            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         }
 
@@ -55,9 +57,6 @@ namespace SoundApi.IntegrationTests
             var builtSound = CreateSound.EndCreateSound(builder);
 
             builder.Finish(builtSound.Value);
-
-            var buf = builder.DataBuffer;
-            var soundRoot = CreateSound.GetRootAsCreateSound(buf);
 
             byte[] byteArray = builder.SizedByteArray();
             
