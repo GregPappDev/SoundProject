@@ -7,6 +7,11 @@ namespace SoundApi.Data
     {
         protected readonly IConfiguration Configuration;
 
+        public AppDbContext()
+        {
+            
+        }
+
         public AppDbContext(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -17,6 +22,6 @@ namespace SoundApi.Data
             options.UseNpgsql(Configuration.GetConnectionString("WebApiDatabase"));
         }
 
-        public DbSet<Sound> Sounds { get; set; }
+        public DbSet<SoundModel> Sounds { get; set; }
     }
 }

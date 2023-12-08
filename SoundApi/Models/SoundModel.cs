@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SoundApi.Models
 {
-    public class Sound
+    public class SoundModel
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("sound_id")]
@@ -22,6 +22,6 @@ namespace SoundApi.Models
         public required DateTime SoundCreated { get; set; }
 
         [Column("sound_updated_datetime", TypeName = "timestamp without time zone")]
-        public required DateTime? SoundUpdated { get; set; }
+        public DateTime? SoundUpdated { get; set; }
     }
 }
